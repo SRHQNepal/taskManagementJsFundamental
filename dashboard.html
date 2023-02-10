@@ -4,9 +4,228 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Dashboard: Online Task Management System</title>
   </head>
   <body>
-    <h1>hello</h1>
+    <nav
+      class="relative w-full flex flex-row items-center justify-between py-4 bg-gray-100 text-gray-500 hover:text-gray-700 focus:text-gray-700 shadow-lg navbar navbar-expand-lg navbar-light"
+    >
+      <div
+        class="container-fluid w-full flex flex-wrap items-center justify-center px-6"
+      >
+        <div class="flex flex-row items-center justify-center mt-3">
+          Online Task Management System
+        </div>
+      </div>
+      <div class="mr-10">
+        <!-- Creating profile avatar and logout button -->
+        <div class="flex flex-col">
+          <div class="flex flex-row">
+            <a>admin</a>
+          </div>
+          <a href="index.html">Logout</a>
+        </div>
+      </div>
+    </nav>
+
+    <div>
+      <!-- Creating input to create the project -->
+      <div class="flex flex-row items-center justify-center mt-10">
+        <div class="flex flex-row p-2  w-1/2">
+            <input
+              id="projectName"
+              type="text"
+              class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding shadow-md rounded transition ease-in-out m-0 focus:text-gray-700 outline-none"
+              placeholder="Project Name"
+            />
+            </div>
+
+    </div>
+    <div class="flex flex-row items-center justify-center mt-10">
+      <table
+        id="projectsTable"
+        class="table-auto shadow-md w-11/12 p-5"
+      ></table>
+    </div>
+    <script>
+      var projects = [
+        {
+          id: 1,
+          name: "Project 1",
+          description: "This is project 1",
+          tasks: [
+            {
+              name: "Task 1",
+              description: "This is task 1",
+              status: "incomplete",
+            },
+            {
+              name: "Task 2",
+              description: "This is task 2",
+              status: "incomplete",
+            },
+            {
+              name: "Task 3",
+              description: "This is task 3",
+              status: "incomplete",
+            },
+          ],
+          overallStatus: "incomplete",
+        },
+        {
+          id: 2,
+          name: "Project 2",
+          description: "This is project 2",
+          tasks: [
+            {
+              name: "Task 1",
+              description: "This is task 1",
+              status: "incomplete",
+            },
+            {
+              name: "Task 2",
+              description: "This is task 2",
+              status: "incomplete",
+            },
+            {
+              name: "Task 3",
+              description: "This is task 3",
+              status: "incomplete",
+            },
+          ],
+          overallStatus: "incomplete",
+        },
+        {
+          id: 3,
+          name: "Project 3",
+          description: "This is project 3",
+          tasks: [
+            {
+              name: "Task 1",
+              description: "This is task 1",
+              status: "incomplete",
+            },
+            {
+              name: "Task 2",
+              description: "This is task 2",
+              status: "incomplete",
+            },
+            {
+              name: "Task 3",
+              description: "This is task 3",
+              status: "incomplete",
+            },
+          ],
+          overallStatus: "incomplete",
+        },
+      ];
+
+      // Making focus on the project name input
+      document.getElementById("projectName").focus();
+
+      // adding on enter event to the project name input
+      document
+        .getElementById("projectName")
+        .addEventListener("keyup", function (event) {
+          if (event.keyCode === 13) {
+            event.preventDefault();
+            console.log("Enter key pressed");
+
+            // Add the project to the projects array with project name as input
+            var projectName = document.getElementById("projectName").value;
+            var project = {
+              id: projects.length + 1,
+              name: projectName,
+              description: "Please update the description",
+              tasks: [],
+              overallStatus: "incomplete",
+            };
+
+            // Adding the project to the projects array
+            projects.push(project);
+
+            // Filling the projects table
+            fillProjectsTable();
+
+            // Clearing the input
+            document.getElementById("projectName").value = "";
+          }
+        });
+
+
+      fillProjectsTable();
+
+      function fillElementsOfTable(itemsWhereToAppend, whatToAppend){
+
+        // Creating headers for the table
+        var projectRow = document.createElement("tr");
+        var projectId = document.createElement("th");
+        var projectName = document.createElement("th");
+        var projectDescription = document.createElement("th");
+        var projectTaskCount = document.createElement("th");
+        var projectOverallStatus = document.createElement("th");
+
+        projectId.innerHTML = whatToAppend.firstItem;
+        projectName.innerHTML = whatToAppend.secondItem;
+        projectDescription.innerHTML = whatToAppend.thirdItem;
+        projectTaskCount.innerHTML = whatToAppend.fourthItem;
+        projectOverallStatus.innerHTML = whatToAppend.fifthItem;
+
+        projectRow.appendChild(projectId);
+        projectRow.appendChild(projectName);
+        projectRow.appendChild(projectDescription);
+        projectRow.appendChild(projectTaskCount);
+        projectRow.appendChild(projectOverallStatus);
+
+        itemsWhereToAppend.appendChild(projectRow);
+      }
+
+      function fillProjectsTable() {
+
+        var projectsTable = document.getElementById("projectsTable");
+        var projectTableHead = document.createElement("thead");
+        var projectsTableBody = document.createElement("tbody");
+
+        // Clear the table first
+        projectsTable.innerHTML = "";
+
+
+        contentsToAppend = {
+          firstItem: "ID",
+          secondItem: "NAME",
+          thirdItem: "DESCRIPTION",
+          fourthItem: "TOTAL NO OF TASKS",
+          fifthItem: "STATUS",
+        }
+        fillElementsOfTable(projectTableHead, contentsToAppend);
+        projects.forEach((project) => {
+          contentsToAppend = {
+            firstItem: project.id,
+            secondItem: project.name,
+            thirdItem: project.description,
+            fourthItem: project.tasks.length,
+            fifthItem: project.overallStatus,
+          }
+          fillElementsOfTable(projectsTableBody, contentsToAppend);
+        });
+        projectsTable.appendChild(projectTableHead);
+        projectsTable.appendChild(projectsTableBody);
+        loadEventHandlers();
+      }
+
+      function loadEventHandlers() {
+        // Adding event handlers to the table rows
+        var tableRows = document.getElementById("projectsTable").rows;
+        for (var i = 1; i < tableRows.length; i++) {
+          tableRows[i].addEventListener("click", function () {
+            console.log("Row clicked");
+            console.log(this.cells[0].innerHTML);
+            // redirect to the project page
+            window.location.href = "project.html?projectId=" + this.cells[0].innerHTML;
+          });
+        }
+      }
+    </script>
   </body>
 </html>
