@@ -138,7 +138,12 @@
         },
       ];
       var tasks = [];
-
+     // saving to local storage
+      function saveToLocalStorage() {
+        localStorage.setItem("projects", JSON.stringify(projects));
+        localStorage.setItem("users", JSON.stringify(users));
+      }
+       
       // getting project id from url
       function getUrlVars() {
     var vars = {};

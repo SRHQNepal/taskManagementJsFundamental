@@ -117,6 +117,19 @@
             alert("Invalid credentials");
           }
         }
+        /*else if (localStorage.getItem("memberUser")) {
+          var memberUser = JSON.parse(localStorage.getItem("memberUser"));
+          var memberEmail = document.getElementById("userEmail").value;
+          var memberpassword = document.getElementById("password").value;
+          if (
+            memberEmail == memberEmail.userEmail &&
+            password == memberpassword.password
+          ) {
+            window.location.href = "dashboard.html";
+          } else {
+            alert("Invalid credentials");
+          }
+        }*/
       });
     </script>
   </body>

@@ -120,6 +120,8 @@
           overallStatus: "incomplete",
         },
       ];
+    // saving to local storage
+      localStorage.setItem("projects", JSON.stringify(projects));
 
       // Making focus on the project name input
       document.getElementById("projectName").focus();
