@@ -97,9 +97,10 @@
 
       document.addEventListener("DOMContentLoaded", function () {
         var adminUser = { userEmail: "admin@admin.com", password: "admin" };
-
+        var memberUser = { userEmail: "member@task.com", password: "member" };
         // saving to local storage
         localStorage.setItem("adminUser", JSON.stringify(adminUser));
+        localStorage.setItem("memberUser", JSON.stringify(memberUser));
       });
       btnLogin.addEventListener("click", (e) => {
         e.preventDefault();
