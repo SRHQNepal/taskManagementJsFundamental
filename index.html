@@ -96,24 +96,48 @@
       const btnLogin = document.getElementById("btnLogin");
 
       document.addEventListener("DOMContentLoaded", function () {
-        var adminUser = { userEmail: "admin@admin.com", password: "admin" };
-
+        var users = [
+          {
+            id: 1,
+            name: "Sabin Regmi",
+            email: "get2sabin@gmail.com",
+            password: "123456",
+            type: "user",
+          },
+          {
+            id: 2,
+            name: "Admin",
+            email: "admin@admin.com",
+            password: "admin",
+            type: "admin",
+          },
+        ];
         // saving to local storage
-        localStorage.setItem("adminUser", JSON.stringify(adminUser));
+        localStorage.setItem("users", JSON.stringify(users));
       });
       btnLogin.addEventListener("click", (e) => {
         e.preventDefault();
-        if (localStorage.getItem("adminUser")) {
+        if (localStorage.getItem("users")) {
           var adminUser = JSON.parse(localStorage.getItem("adminUser"));
           var userEmail = document.getElementById("userEmail").value;
           var password = document.getElementById("password").value;
-          if (
-            userEmail == adminUser.userEmail &&
-            password == adminUser.password
-          ) {
-            window.location.href = "dashboard.html";
+          // check if user is admin
+          // check if user is normal user
+          var users = JSON.parse(localStorage.getItem("users"));
+          var user = users.find((user) => user.email == userEmail);
+          if (user) {
+            if (user.password == password) {
+              // redirect to dashboard
+              // save user to local storage
+              localStorage.setItem("currentUser", JSON.stringify(user));
+              // initializing empty projects array
+              localStorage.setItem("projects", JSON.stringify([]));
+              window.location.href = "dashboard.html";
+            } else {
+              alert("Password is incorrect");
+            }
           } else {
-            alert("Invalid credentials");
+            alert("User not found");
           }
         }
       });

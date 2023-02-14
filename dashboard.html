@@ -5,12 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <title>Dashboard: Online Task Management System</title>
   </head>
   <body>
     <nav
       class="relative w-full flex flex-row items-center justify-between py-4 bg-gray-100 text-gray-500 hover:text-gray-700 focus:text-gray-700 shadow-lg navbar navbar-expand-lg navbar-light"
     >
+    <div>
+      <lottie-player class="ml-4 h-5 w-7" src="https://assets7.lottiefiles.com/private_files/lf30_eiaughgn.json" background="transparent"  speed="0.5" autoplay loop></lottie-player>
+    </div>
       <div
         class="container-fluid w-full flex flex-wrap items-center justify-center px-6"
       >
@@ -21,19 +25,34 @@
       <div class="flex flex-row">
         <!-- Creating profile avatar and logout button -->
         <div class="flex flex-row" id="user" style="margin-right: 8px;display: flex;align-items: center;">
-        <img style="margin-right:15px; width:30px;"src="user.png">
-        <p>admin</p>
+        <lottie-player class="h-5 w-5 mr-2" src="https://assets2.lottiefiles.com/packages/lf20_ia8jpabk.json" background="transparent"  speed="0.5" autoplay loop hover></lottie-player>
+        <p id="currentUserName">admin</p>
         </div>
         
-      </div>
-      <a href="#" class="text-red-500" style="margin-right: 15px;">Logout</a>
+      <div id="logoutDiv" class="mr-6">
+       <lottie-player class="h-12 w-12" src="https://assets8.lottiefiles.com/packages/lf20_s0cpca0v.json" background="transparent"  speed="0.5" hover></lottie-player>
       </div>
       </div>
     </nav>
 
     <div>
+     
+      <!-- Creating navbar to create the project -->
+      <div class="flex flex-row items-start justify-start bg-gray-100 text-gray-500 hover:text-gray-700 focus:text-gray-700">
+        <div class="flex flex-row">
+          <a
+          
+            href="dashboard.html"
+            class="block px-4 py-2 text-sm font-semibold "
+            >Dashboard</a
+          >
+        </div>
+      </div>
+          <div class="flex flex-row items-center justify-center mt-1">
+<lottie-player class="h-2/6 w-2/6" src="https://assets1.lottiefiles.com/packages/lf20_aewe22ol.json" background="transparent"  speed="0.5" autoplay></lottie-player>
+    </div>
       <!-- Creating input to create the project -->
-      <div class="flex flex-row items-center justify-center mt-10">
+      <div id="createProjectDiv" class="flex flex-row items-center justify-center mt-2">
         <div class="flex flex-row p-2  w-1/2">
             <input
               id="projectName"
@@ -41,6 +60,9 @@
               class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding shadow-md rounded transition ease-in-out m-0 focus:text-gray-700 outline-none"
               placeholder="Project Name"
             />
+             <div>
+      <lottie-player id="addLottie" class="ml-4 h-10 w-10 mt-2 hidden" src="https://assets10.lottiefiles.com/packages/lf20_dNg5MlvEgg.json" background="transparent"  speed="0.5" autoplay loop></lottie-player>
+    </div>
             </div>
 
     </div>
@@ -50,78 +72,11 @@
         class="table-auto shadow-md w-11/12 p-5"
       ></table>
     </div>
+
+    
     <script>
-      var projects = [
-        {
-          id: 1,
-          name: "Project 1",
-          description: "This is project 1",
-          tasks: [
-            {
-              name: "Task 1",
-              description: "This is task 1",
-              status: "incomplete",
-            },
-            {
-              name: "Task 2",
-              description: "This is task 2",
-              status: "incomplete",
-            },
-            {
-              name: "Task 3",
-              description: "This is task 3",
-              status: "incomplete",
-            },
-          ],
-          overallStatus: "incomplete",
-        },
-        {
-          id: 2,
-          name: "Project 2",
-          description: "This is project 2",
-          tasks: [
-            {
-              name: "Task 1",
-              description: "This is task 1",
-              status: "incomplete",
-            },
-            {
-              name: "Task 2",
-              description: "This is task 2",
-              status: "incomplete",
-            },
-            {
-              name: "Task 3",
-              description: "This is task 3",
-              status: "incomplete",
-            },
-          ],
-          overallStatus: "incomplete",
-        },
-        {
-          id: 3,
-          name: "Project 3",
-          description: "This is project 3",
-          tasks: [
-            {
-              name: "Task 1",
-              description: "This is task 1",
-              status: "incomplete",
-            },
-            {
-              name: "Task 2",
-              description: "This is task 2",
-              status: "incomplete",
-            },
-            {
-              name: "Task 3",
-              description: "This is task 3",
-              status: "incomplete",
-            },
-          ],
-          overallStatus: "incomplete",
-        },
-      ];
+       
+      var localStorageProjects = JSON.parse(localStorage.getItem("projects"));
 
       // Making focus on the project name input
       document.getElementById("projectName").focus();
@@ -133,11 +88,15 @@
           if (event.keyCode === 13) {
             event.preventDefault();
             console.log("Enter key pressed");
+            document.getElementById("addLottie").classList.remove("hidden");
+            setInterval(function(){
+              document.getElementById("addLottie").classList.add("hidden");
+            }, 5000);
 
             // Add the project to the projects array with project name as input
             var projectName = document.getElementById("projectName").value;
             var project = {
-              id: projects.length + 1,
+              id: localStorageProjects.length + 1,
               name: projectName,
               description: "Please update the description",
               tasks: [],
@@ -145,7 +104,10 @@
             };
 
             // Adding the project to the projects array
-            projects.push(project);
+            localStorageProjects.push(project);
+
+            // Adding the project to the local storage
+            localStorage.setItem("projects", JSON.stringify(localStorageProjects));
 
             // Filling the projects table
             fillProjectsTable();
@@ -155,8 +117,41 @@
           }
         });
 
+        // adding on hover effect on the project name input
+        document.getElementById("projectName").addEventListener("mouseover", function (event) {
+          // playing the lottie animation
+          document.getElementById("addLottie").classList.remove("hidden");
+        });
+
+        // removing on hover effect on the project name input
+        document.getElementById("projectName").addEventListener("mouseout", function (event) {
+          // playing the lottie animation
+          document.getElementById("addLottie").classList.add("hidden");
+        });
+
 
       fillProjectsTable();
+
+      // log out when clicked on logOut div
+      document.getElementById("logoutDiv").addEventListener("click", function (event) {
+        window.location.href = "index.html";
+      });
+
+      // function to fectch current user form local storage
+
+      if (getCurrentUser() == null) {
+        window.location.href = "index.html";
+      }else{
+        document.getElementById("currentUserName").innerHTML = getCurrentUser().name;
+        if (getCurrentUser().type != "admin") {
+          document.getElementById("createProjectDiv").classList.add("hidden");
+        }
+      }
+
+      function getCurrentUser() {
+        var currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        return currentUser;
+      }
 
       function fillElementsOfTable(itemsWhereToAppend, whatToAppend){
 
@@ -185,6 +180,8 @@
 
       function fillProjectsTable() {
 
+
+        // TODO: Just add the project that is associated with the current user
         var projectsTable = document.getElementById("projectsTable");
         var projectTableHead = document.createElement("thead");
         var projectsTableBody = document.createElement("tbody");
@@ -201,7 +198,7 @@
           fifthItem: "STATUS",
         }
         fillElementsOfTable(projectTableHead, contentsToAppend);
-        projects.forEach((project) => {
+        localStorageProjects.forEach((project) => {
           contentsToAppend = {
             firstItem: project.id,
             secondItem: project.name,
