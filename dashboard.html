@@ -208,13 +208,27 @@
             secondItem: project.name,
             thirdItem: project.description,
             fourthItem: project.tasks.length,
-            fifthItem: project.overallStatus,
+            fifthItem: getOverallProjectStatus(project.id),
           }
           fillElementsOfTable(projectsTableBody, contentsToAppend);
         });
         projectsTable.appendChild(projectTableHead);
         projectsTable.appendChild(projectsTableBody);
         loadEventHandlers();
+      }
+
+      function getOverallProjectStatus(projectId){
+        var project = localStorageProjects.find((project) => project.id == projectId);
+        var overallStatus = "incomplete";
+        if (project.tasks.length > 0) {
+          var completedTasks = project.tasks.filter((task) => task.status == "completed");
+          if (completedTasks.length == project.tasks.length) {
+            overallStatus = "completed";
+          } else if (completedTasks.length > 0) {
+            overallStatus = "inprogress";
+          }
+        }
+        return overallStatus;
       }
 
       function loadEventHandlers() {
