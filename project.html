@@ -69,7 +69,7 @@
             <textarea class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Doe"></textarea>
           </div>
         </div>
-        <div class="flex flex-wrap -mx-3 mb-2">
+        <div class="flex flex-wrap -mx-3 mb-2 items-center justify-center">
           <div class="w-full lg:w-1/2 md:w-1/3 px-3 mb-6 md:mb-0">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
               Start Date
@@ -82,6 +82,7 @@
             </label>
             <input type="date" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="Albuquerque">
           </div>
+          <lottie-player class="h-12 w-12" src="https://assets8.lottiefiles.com/packages/lf20_s0cpca0v.json" background="transparent"  speed="0.5" hover></lottie-player>
           </div>
 
       </form>
@@ -153,6 +154,9 @@
     // fill project details
     // filling the project details in input tag
     document.getElementById("grid-first-name").value = project.name;
+    document.getElementById("grid-last-name").value = project.description;
+    document.getElementById("grid-city").value = project.startDate;
+    document.getElementById("grid-city").value = project.endDate;
     
     // TODO: We need to redirect when we click on project navbar item to project.html with project id
     document.getElementById("projectNav").innerHTML = project.name;
@@ -181,8 +185,8 @@
         var taskOverallStatus = document.createElement("th");
         var taskAssignee = document.createElement("th");
         // create a dropdown for assignee
-        var assigneeDropdown = document.createElement("select");
-        assigneeDropdown.innerHTML = "<option value=''>Please Select</option>";
+        // var assigneeDropdown = document.createElement("select");
+        // assigneeDropdown.innerHTML = "<option value=''>Please Select</option>";
         // create options for the dropdown
        
 
@@ -196,30 +200,30 @@
         if (itemsWhereToAppend.tagName == "THEAD") {
             taskAssignee.innerHTML = whatToAppend.fifthItem;
         } else {
-            taskAssignee.appendChild(assigneeDropdown);
-             assigneeDropdown.setAttribute("id", "assigneeDropdown");
-        assigneeDropdown.setAttribute("class", "form-control");
-        assigneeDropdown.setAttribute("name", "assigneeDropdown");
-        assigneeDropdown.setAttribute("onchange", "changeAssignee(this)");
-        assigneeDropdown.setAttribute("value", whatToAppend.fifthItem);
+            // taskAssignee.appendChild(assigneeDropdown);
+        //      assigneeDropdown.setAttribute("id", "assigneeDropdown");
+        // assigneeDropdown.setAttribute("class", "form-control");
+        // assigneeDropdown.setAttribute("name", "assigneeDropdown");
+        // assigneeDropdown.setAttribute("onchange", "changeAssignee(this)");
+        // assigneeDropdown.setAttribute("value", whatToAppend.fifthItem);
         // create options for the dropdown
         
  
 
-        for (var i = 0; i < users.length; i++) {
-            var option = document.createElement("option");
+        // for (var i = 0; i < users.length; i++) {
+        //     var option = document.createElement("option");
             
-            // setting the deafult value of the dropdown to please select if the task doesnt have an assignee
-            option.setAttribute("value", users[i].id);
-            option.innerHTML = users[i].name;
-            assigneeDropdown.appendChild(option);
+        //     // setting the deafult value of the dropdown to please select if the task doesnt have an assignee
+        //     option.setAttribute("value", users[i].id);
+        //     option.innerHTML = users[i].name;
+        //     assigneeDropdown.appendChild(option);
 
-            // if the whatToAppend.fifthItem is not null then set the value of the dropdown to the assignee of the task
+        //     // if the whatToAppend.fifthItem is not null then set the value of the dropdown to the assignee of the task
     
-        }
+        // }
 
         // setting default value of the dropdown to please select
-   
+          taskAssignee.innerHTML = whatToAppend.fifthItem;
         }
         
             

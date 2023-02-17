@@ -34,7 +34,7 @@ function validateUser(email, password) {
 
   if (user) {
     localStorage.setItem("currentUser", JSON.stringify(user));
-    localStorage.setItem("projects", JSON.stringify([]));
+    // localStorage.setItem("projects", JSON.stringify([]));
 
     window.location.href = "dashboard.html";
   } else {

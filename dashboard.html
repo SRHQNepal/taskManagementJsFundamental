@@ -79,6 +79,12 @@
        
       var localStorageProjects = JSON.parse(localStorage.getItem("projects"));
 
+      // try to fetch projects from local storage and if not found then create a new array
+      if (localStorageProjects == null) {
+        localStorageProjects = [];
+      }
+      
+
       // Making focus on the project name input
       document.getElementById("projectName").focus();
 
