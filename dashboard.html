@@ -166,18 +166,24 @@
         var projectDescription = document.createElement("th");
         var projectTaskCount = document.createElement("th");
         var projectOverallStatus = document.createElement("th");
+        var projectOverallHours = document.createElement("th");
+        var projectOverallCost = document.createElement("th");
 
         projectId.innerHTML = whatToAppend.firstItem;
         projectName.innerHTML = whatToAppend.secondItem;
         projectDescription.innerHTML = whatToAppend.thirdItem;
         projectTaskCount.innerHTML = whatToAppend.fourthItem;
         projectOverallStatus.innerHTML = whatToAppend.fifthItem;
+        projectOverallHours.innerHTML = whatToAppend.sixthItem;
+        projectOverallCost.innerHTML = whatToAppend.seventhItem;
 
         projectRow.appendChild(projectId);
         projectRow.appendChild(projectName);
         projectRow.appendChild(projectDescription);
         projectRow.appendChild(projectTaskCount);
         projectRow.appendChild(projectOverallStatus);
+        projectRow.appendChild(projectOverallHours);
+        projectRow.appendChild(projectOverallCost);
 
         itemsWhereToAppend.appendChild(projectRow);
       }
@@ -200,6 +206,8 @@
           thirdItem: "DESCRIPTION",
           fourthItem: "TOTAL NO OF TASKS",
           fifthItem: "STATUS",
+          sixthItem: "TOTAL HOURS",
+          seventhItem: "TOTAL COST",
         }
         fillElementsOfTable(projectTableHead, contentsToAppend);
         localStorageProjects.forEach((project) => {
@@ -209,12 +217,35 @@
             thirdItem: project.description,
             fourthItem: project.tasks.length,
             fifthItem: getOverallProjectStatus(project.id),
+            sixthItem: getTotalHours(project.id) ? getTotalHours(project.id) : "0" ,
+            seventhItem: getTotalCost(project.id) ? "$ "+ getTotalCost(project.id) : "0",
           }
           fillElementsOfTable(projectsTableBody, contentsToAppend);
         });
         projectsTable.appendChild(projectTableHead);
         projectsTable.appendChild(projectsTableBody);
         loadEventHandlers();
+      }
+
+      // function to calculate total hour of a project
+      function getTotalHours(projectId){
+        var project = localStorageProjects.find((project) => project.id == projectId);
+        var totalHours = 0;
+        project.tasks.forEach((task) => {
+          totalHours += task.totalHoursWorked;
+        });
+        return totalHours;
+      }
+
+      // function to calculate total cost of a project
+      function getTotalCost(projectId){
+        var project = localStorageProjects.find((project) => project.id == projectId);
+        var totalCost = 0;
+        project.tasks.forEach((task) => {
+          taskCost = task.totalHoursWorked * task.hourlyRate;
+          totalCost += taskCost;
+        });
+        return totalCost;
       }
 
       function getOverallProjectStatus(projectId){
