@@ -223,6 +223,34 @@
         window.location.href = "index.html";
       });
 
+    if (getCurrentUser() == null) {
+      window.location.href = "index.html";
+    } else {
+      document.getElementById("currentUserName").innerHTML =
+        getCurrentUser().name;
+      if (getCurrentUser().type != "admin") {
+        // TODO: make hourly rate uneditable
+        document.getElementById("hourly_rate").disabled = true;
+
+        // make assignee uneditable
+        document.getElementById("assignee").disabled = true;
+
+        // make task name and task description uneditable
+        document.getElementById("task-name").disabled = true;
+        document.getElementById("task-description").disabled = true;
+
+        // make start date date uneditable
+        document.getElementById("start").disabled = true;
+
+        // document.getElementById("save").classList.add("hidden");
+      }
+    }
+
+    function getCurrentUser() {
+      var currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      return currentUser;
+    }
+
     // parsing task id and project id from url
     function getUrlVars() {
       var vars = {};

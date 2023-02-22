@@ -76,14 +76,24 @@
 
     
     <script>
-       
-      var localStorageProjects = JSON.parse(localStorage.getItem("projects"));
+        var localStorageProjects = JSON.parse(localStorage.getItem("projects"));
 
-      // try to fetch projects from local storage and if not found then create a new array
-      if (localStorageProjects == null) {
-        localStorageProjects = [];
-      }
+          // try to fetch projects from local storage and if not found then create a new array
+          if (localStorageProjects == null) {
+            localStorageProjects = [];
+          }
+      
+       // find the projects in which tasks is associated with the current user
+        associatedProjects = [];
+        localStorageProjects.forEach((project) => {
+          project.tasks.forEach((task) => {
+            if (task.assignee == getCurrentUser().id) {
+              associatedProjects.push(project);
+            }
+          });
+        });
 
+        console.log(associatedProjects);
 
       // Making focus on the project name input
       document.getElementById("projectName").focus();
@@ -152,6 +162,9 @@
         document.getElementById("currentUserName").innerHTML = getCurrentUser().name;
         if (getCurrentUser().type != "admin") {
           document.getElementById("createProjectDiv").classList.add("hidden");
+
+          localStorageProjects = associatedProjects;
+        
         }
       }
 
@@ -210,7 +223,12 @@
           seventhItem: "TOTAL COST",
         }
         fillElementsOfTable(projectTableHead, contentsToAppend);
-        localStorageProjects.forEach((project) => {
+
+        
+        document.getElementById("currentUserName").innerHTML = getCurrentUser().name;
+        if (getCurrentUser().type != "admin") {
+          
+        associatedProjects.forEach((project) => {
           contentsToAppend = {
             firstItem: project.id,
             secondItem: project.name,
@@ -222,6 +240,20 @@
           }
           fillElementsOfTable(projectsTableBody, contentsToAppend);
         });
+        }else{
+          localStorageProjects.forEach((project) => {
+          contentsToAppend = {
+            firstItem: project.id,
+            secondItem: project.name,
+            thirdItem: project.description,
+            fourthItem: project.tasks.length,
+            fifthItem: getOverallProjectStatus(project.id),
+            sixthItem: getTotalHours(project.id) ? getTotalHours(project.id) : "0" ,
+            seventhItem: getTotalCost(project.id) ? "$ "+ getTotalCost(project.id) : "0",
+          }
+          fillElementsOfTable(projectsTableBody, contentsToAppend);
+        });
+        }
         projectsTable.appendChild(projectTableHead);
         projectsTable.appendChild(projectsTableBody);
         loadEventHandlers();

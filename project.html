@@ -91,7 +91,7 @@
 
       </form>
       <!-- Creating input to create the project -->
-      <div class="flex flex-row items-center justify-center mt-10">
+      <div id="createTaskDiv" class="flex flex-row items-center justify-center mt-10">
         <div class="flex flex-row p-2  w-1/2">
             <input
               id="taskName"
@@ -125,7 +125,14 @@
       }else{
         document.getElementById("currentUserName").innerHTML = getCurrentUser().name;
         if (getCurrentUser().type != "admin") {
-          document.getElementById("createProjectDiv").classList.add("hidden");
+          document.getElementById("createTaskDiv").classList.add("hidden");
+          document.getElementById("save").classList.add("hidden");
+
+          // make inputs disabled
+          document.getElementById("project_name").disabled = true;
+          document.getElementById("project_description").disabled = true;
+          document.getElementById("start_date").disabled = true;
+          document.getElementById("end_date").disabled = true;
         }
       }
 
@@ -252,6 +259,13 @@
         }
         fillElementsOfTable(taskTableHead, contentsToAppend);
         console.log(tasks);
+
+        // checking if the user is admin or not
+        if (getCurrentUser().type != "admin") {
+          // if not admin then we need to show only the tasks which are assigned to the current user
+          tasks = tasks.filter(task => task.assignee == getCurrentUser().id);
+        }
+
         tasks.forEach((task) => {
             console.log(task);
           contentsToAppend = {
