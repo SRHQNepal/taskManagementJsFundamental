@@ -281,7 +281,7 @@
             console.log("Row clicked");
             console.log(this.cells[0].innerHTML);
             // redirect to the task page
-           window.location.href = "task.html?taskId=" + this.cells[0].innerHTML;
+           window.location.href = "task.html?projectId="+projectId+"&taskId=" + this.cells[0].innerHTML;
           });
         }
 
