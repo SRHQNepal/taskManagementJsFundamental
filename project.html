@@ -356,6 +356,11 @@
             }
         }
         localStorage.setItem("projects", JSON.stringify(projects));
+
+        alert("Project Updated Successfully");
+
+        // reload the page
+        window.location.href = "project.html?projectId="+projectId;
       }
 
     </script>
