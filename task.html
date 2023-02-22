@@ -75,9 +75,7 @@
           >Projects</a
         >
         <p class="block px-1 py-2 text-sm font-semibold">></p>
-        <a id="taskNav" href="#" class="block px-4 py-2 text-sm font-semibold"
-          >Tasks</a
-        >
+        <a id="taskNav" class="block px-4 py-2 text-sm font-semibold">Tasks</a>
       </div>
     </div>
     <form class="w-full lg:w-2/3 mx-auto mb-10 mt-10">
@@ -204,12 +202,20 @@
             placeholder="Eg. 5"
           />
         </div>
-        <div class="w-full lg:full md:full mt-6 px-3 mb-6 md:mb-0">
+        <div
+          class="w-full lg:full md:full mt-6 px-3 mb-6 md:mb-0 flex flex-row justify-evenly"
+        >
           <button
             id="save"
             class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             Save
+          </button>
+          <button
+            id="deleteTask"
+            class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            Delete
           </button>
         </div>
       </div>
@@ -287,8 +293,8 @@
 
     document.getElementById("taskNav").innerHTML = task.name;
     // Redirecting to task.html with project id and task id
-    document.getElementById("taskNav").href =
-      "task.html?projectId=" + project.id + task.id;
+    // document.getElementById("taskNav").href =
+    //   "task.html?projectId=" + project.id + task.id;
 
     function getUsers() {
       var users = JSON.parse(localStorage.getItem("users"));
@@ -348,7 +354,6 @@
       var endd = document.getElementById("enddate");
       task.status = document.getElementById("status").value;
       task.assignee = Number(document.getElementById("assignee").value);
-      alert(task.assignee);
 
       task.name = taskName.value;
 
@@ -382,6 +387,31 @@
 
       // reload the page
       location.reload();
+    });
+
+    var deleteTask = document.getElementById("deleteTask");
+    deleteTask.addEventListener("click", function () {
+      // prevent default form submission
+      event.preventDefault();
+
+      // deleting the task from the project
+      var taskIndex = tasks.findIndex((t) => t.id == task_id);
+      tasks.splice(taskIndex, 1);
+
+      // updating the project in the projects
+      // getting the projects from the local storage
+      var projects = JSON.parse(localStorage.getItem("projects"));
+      var projectIndex = projects.findIndex((p) => p.id == project_id);
+      projects[projectIndex] = project;
+
+      // updating the projects in the local storage
+      localStorage.setItem("projects", JSON.stringify(projects));
+
+      // Showing the success alert
+      alert("Task deleted successfully");
+
+      // redirecting to project.html
+      window.location.href = "project.html?projectId=" + project_id;
     });
   </script>
 </html>

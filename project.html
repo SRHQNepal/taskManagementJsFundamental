@@ -314,11 +314,15 @@
 
       function addTask() {
         var taskName = document.getElementById("taskName").value;
+        if (taskName == "") {
+          alert("Please enter a task name");
+          return;
+        }
         var task = {
           id: tasks.length + 1,
           name: taskName,
           description: "",
-          status: "incomplete",
+          status: "To Do",
           assignee: "",
           totalHoursWorked: 0,
           hourlyRate: 0,
