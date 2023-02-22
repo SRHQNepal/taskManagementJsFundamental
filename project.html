@@ -107,7 +107,7 @@
 
     <script>
 
-      var project = getProjectDetails();
+    var project = getProjectDetails();
     // getting curent user  
     var currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
@@ -279,8 +279,10 @@
           tableRows[i].addEventListener("click", function () {
             console.log("Row clicked");
             console.log(this.cells[0].innerHTML);
-            // redirect to the task page
-           window.location.href = "task.html?taskId=" + this.cells[0].innerHTML;
+            // redirect to the task page with both project id and task id
+            window.location.href = "task.html?projectId="+projectId+"&taskId=" + this.cells[0].innerHTML;
+
+          //  window.location.href = "task.html?projectId="+projectId+"taskId=" + this.cells[0].innerHTML;
           });
         }
 
