@@ -313,6 +313,15 @@
     console.log("---------------------------");
     console.log(startDate);
 
+    var users = getUsers();
+    var assignee = document.getElementById("assignee");
+    users.forEach((user) => {
+      var option = document.createElement("option");
+      option.value = user.id;
+      option.text = user.name;
+      assignee.appendChild(option);
+    });
+
     document.getElementById("task-name").value = task.name;
     document.getElementById("task-description").value = task.description;
     document.getElementById("start").value = startDate;
@@ -323,14 +332,11 @@
     document.getElementById("hourly_rate").value = task.hourlyRate;
     document.getElementById("total_hours_worked").value = task.totalHoursWorked;
 
-    var users = getUsers();
-    var assignee = document.getElementById("assignee");
-    users.forEach((user) => {
-      var option = document.createElement("option");
-      option.value = user.id;
-      option.text = user.name;
-      assignee.appendChild(option);
-    });
+    function getUserFullNameFromId(userId) {
+      var users = JSON.parse(localStorage.getItem("users"));
+      var user = users.find((u) => u.id == userId);
+      return user.name;
+    }
 
     var save = document.getElementById("save");
     save.addEventListener("click", function () {
@@ -342,6 +348,7 @@
       var endd = document.getElementById("enddate");
       task.status = document.getElementById("status").value;
       task.assignee = Number(document.getElementById("assignee").value);
+      alert(task.assignee);
 
       task.name = taskName.value;
 

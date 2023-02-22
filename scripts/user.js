@@ -15,7 +15,7 @@ function loadInitialData() {
       type: "admin",
     },
     {
-      id: 2,
+      id: 3,
       name: "Namrata Barot",
       email: "namrata.barot3@gmail.com",
       password: "123456",
