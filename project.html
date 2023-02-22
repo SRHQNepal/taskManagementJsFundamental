@@ -59,7 +59,7 @@
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="project_name">
              Project Name
             </label>
-            <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" id="project_name" placeholder="Jane">
+            <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" id="project_name" placeholder="Jane">
            
           </div>
           <div class="w-full lg:w-3/4 md:w-1/2 px-3">
@@ -113,7 +113,7 @@
         window.location.href = "index.html";
       });
 
-      var project = getProjectDetails();
+    var project = getProjectDetails();
     // getting curent user  
     var currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
@@ -170,13 +170,21 @@
 
     var startDate = new Date().toISOString().slice(0, 10);
     var endDate = new Date().toISOString().slice(0, 10);
+
     if((project.startDate !='') && (project.startDate !=undefined)){
-      startDate = project.startDate;
+      const dateParts = project.startDate.split('/'); // split the string into parts
+    const dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]); // create Date object
+    startDate = dateObject.toISOString();
+    console.log(startDate);
     }
     if((project.endDate !='') && (project.endDate != undefined)){
-      endDate = project.endDate;
+            const dateParts = project.endDate.split('/'); // split the string into parts
+    const dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]); // create Date object
+    endDate = dateObject.toISOString();
     
     } 
+    // console.log(project.startDate);
+
     document.getElementById("project_name").value = project.name;
     document.getElementById("project_description").value = project.description;
     document.getElementById("start_date").value = startDate;
@@ -205,7 +213,8 @@
         var taskRow = document.createElement("tr");
         var taskId = document.createElement("th");
         var taskName = document.createElement("th");
-        var taskDescription = document.createElement("th");
+        var taskStartDate = document.createElement("th");
+        var taskEndDate = document.createElement("th");
         var taskOverallStatus = document.createElement("th");
         var taskAssignee = document.createElement("th");
         var taskTotalHours = document.createElement("th");
@@ -219,17 +228,17 @@
 
         taskId.innerHTML = whatToAppend.firstItem;
         taskName.innerHTML = whatToAppend.secondItem;
-        taskDescription.innerHTML = whatToAppend.thirdItem;
-        taskOverallStatus.innerHTML = whatToAppend.fourthItem;
-        // print the type of tbody or thead
-        console.log(itemsWhereToAppend.tagName);
-        taskAssignee.innerHTML = whatToAppend.fifthItem;
-        taskTotalHours.innerHTML = whatToAppend.sixthItem;
-        taskTotalCost.innerHTML = whatToAppend.seventhItem;
+        taskStartDate.innerHTML = whatToAppend.thirdItem;
+        taskEndDate.innerHTML = whatToAppend.fourthItem;
+        taskOverallStatus.innerHTML = whatToAppend.fifthItem;
+        taskAssignee.innerHTML = whatToAppend.sixthItem;
+        taskTotalHours.innerHTML = whatToAppend.seventhItem;
+        taskTotalCost.innerHTML = whatToAppend.eighthItem;
 
         taskRow.appendChild(taskId);
         taskRow.appendChild(taskName);
-        taskRow.appendChild(taskDescription);
+        taskRow.appendChild(taskStartDate);
+        taskRow.appendChild(taskEndDate);
         taskRow.appendChild(taskOverallStatus);
         taskRow.appendChild(taskAssignee);
         taskRow.appendChild(taskTotalHours);
@@ -251,11 +260,12 @@
         contentsToAppend = {
           firstItem: "ID",
           secondItem: "NAME",
-          thirdItem: "DESCRIPTION",
-          fourthItem:  "STATUS",
-          fifthItem: "ASSIGNEE",
-          sixthItem: "TOTAL HOURS",
-          seventhItem: "TOTAL COST"
+          thirdItem: "START DATE",
+          fourthItem: "END DATE",
+          fifthItem:  "STATUS",
+          sixthItem: "ASSIGNEE",
+          seventhItem: "TOTAL HOURS",
+          eighthItem: "TOTAL COST"
         }
         fillElementsOfTable(taskTableHead, contentsToAppend);
         console.log(tasks);
@@ -271,11 +281,12 @@
           contentsToAppend = {
             firstItem: task.id ? task.id : "",
             secondItem: task.name,
-            thirdItem: task.description,
-            fourthItem: task.status ? task.status : "",
-            fifthItem: task.assignee ? getUserFullNameFromId(task.assignee) : "",
-            sixthItem: task.totalHoursWorked ? task.totalHoursWorked : "",
-            seventhItem: task.hourlyRate ? "$ "+  (task.totalHoursWorked ? task.totalHoursWorked : 0) *  task.hourlyRate: ""
+            thirdItem: task.startDate ? task.startDate : "",
+            fourthItem: task.endDate ? task.endDate : "",
+            fifthItem: task.status ? task.status : "",
+            sixthItem: task.assignee ? getUserFullNameFromId(task.assignee) : "",
+            seventhItem: task.totalHoursWorked ? task.totalHoursWorked : "",
+            eighthItem: task.hourlyRate ? "$ "+  (task.totalHoursWorked ? task.totalHoursWorked : 0) *  task.hourlyRate: ""
           }
           fillElementsOfTable(taskTableBody, contentsToAppend);
         });
@@ -326,6 +337,9 @@
           assignee: "",
           totalHoursWorked: 0,
           hourlyRate: 0,
+          // setting the start date to today in dd/mm/yyyy format
+          startDate: new Date().toLocaleDateString(),
+          endDate: ""
         }
         tasks.push(task);
        

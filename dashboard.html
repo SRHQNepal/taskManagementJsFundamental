@@ -67,7 +67,7 @@
             </div>
 
     </div>
-    <div class="flex flex-row items-center justify-center mt-10">
+    <div class="flex flex-row items-center justify-center mt-10 mb-10">
       <table
         id="projectsTable"
         class="table-auto shadow-md w-11/12 p-5"
@@ -117,6 +117,12 @@
               name: projectName,
               description: "Please update the description",
               tasks: [],
+              // setting the start date to today in dd/mm/yyyy format
+              startDate: new Date().toLocaleDateString(),
+              // setting the end date to 14 day after the start date
+              endDate: new Date(
+                new Date().getTime() + 14 * 24 * 60 * 60 * 1000
+              ).toLocaleDateString(),
               
             };
 
@@ -176,24 +182,27 @@
         var projectRow = document.createElement("tr");
         var projectId = document.createElement("th");
         var projectName = document.createElement("th");
-        var projectDescription = document.createElement("th");
         var projectTaskCount = document.createElement("th");
+        var projectStartDate = document.createElement("th");
+        var projectEndDate = document.createElement("th");
         var projectOverallStatus = document.createElement("th");
         var projectOverallHours = document.createElement("th");
         var projectOverallCost = document.createElement("th");
 
         projectId.innerHTML = whatToAppend.firstItem;
         projectName.innerHTML = whatToAppend.secondItem;
-        projectDescription.innerHTML = whatToAppend.thirdItem;
-        projectTaskCount.innerHTML = whatToAppend.fourthItem;
-        projectOverallStatus.innerHTML = whatToAppend.fifthItem;
-        projectOverallHours.innerHTML = whatToAppend.sixthItem;
-        projectOverallCost.innerHTML = whatToAppend.seventhItem;
+        projectStartDate.innerHTML = whatToAppend.thirdItem;
+        projectEndDate.innerHTML = whatToAppend.fourthItem;
+        projectTaskCount.innerHTML = whatToAppend.fifthItem;
+        projectOverallStatus.innerHTML = whatToAppend.sixthItem;
+        projectOverallHours.innerHTML = whatToAppend.seventhItem;
+        projectOverallCost.innerHTML = whatToAppend.eighthItem;
 
         projectRow.appendChild(projectId);
         projectRow.appendChild(projectName);
-        projectRow.appendChild(projectDescription);
         projectRow.appendChild(projectTaskCount);
+        projectRow.appendChild(projectStartDate);
+        projectRow.appendChild(projectEndDate);
         projectRow.appendChild(projectOverallStatus);
         projectRow.appendChild(projectOverallHours);
         projectRow.appendChild(projectOverallCost);
@@ -216,11 +225,12 @@
         contentsToAppend = {
           firstItem: "ID",
           secondItem: "NAME",
-          thirdItem: "DESCRIPTION",
-          fourthItem: "TOTAL NO OF TASKS",
-          fifthItem: "STATUS",
-          sixthItem: "TOTAL HOURS",
-          seventhItem: "TOTAL COST",
+          thirdItem: "START DATE",
+          fourthItem: "END DATE",
+          fifthItem: "TOTAL NO OF TASKS",
+          sixthItem: "STATUS",
+          seventhItem: "TOTAL HOURS",
+          eighthItem: "TOTAL COST",
         }
         fillElementsOfTable(projectTableHead, contentsToAppend);
 
@@ -232,11 +242,12 @@
           contentsToAppend = {
             firstItem: project.id,
             secondItem: project.name,
-            thirdItem: project.description,
-            fourthItem: project.tasks.length,
-            fifthItem: getOverallProjectStatus(project.id),
-            sixthItem: getTotalHours(project.id) ? getTotalHours(project.id) : "0" ,
-            seventhItem: getTotalCost(project.id) ? "$ "+ getTotalCost(project.id) : "0",
+            thirdItem: project.startDate,
+            fourthItem: project.endDate ? project.endDate : "Not Set",
+            fifthItem: project.tasks.length,
+            sixthItem: getOverallProjectStatus(project.id),
+            seventhItem: getTotalHours(project.id) ? getTotalHours(project.id) : "0" ,
+            eighthItem: getTotalCost(project.id) ? "$ "+ getTotalCost(project.id) : "0",
           }
           fillElementsOfTable(projectsTableBody, contentsToAppend);
         });
@@ -245,11 +256,12 @@
           contentsToAppend = {
             firstItem: project.id,
             secondItem: project.name,
-            thirdItem: project.description,
-            fourthItem: project.tasks.length,
-            fifthItem: getOverallProjectStatus(project.id),
-            sixthItem: getTotalHours(project.id) ? getTotalHours(project.id) : "0" ,
-            seventhItem: getTotalCost(project.id) ? "$ "+ getTotalCost(project.id) : "0",
+            thirdItem: project.startDate,
+            fourthItem: project.endDate,
+            fifthItem: project.tasks.length,
+            sixthItem: getOverallProjectStatus(project.id),
+            seventhItem: getTotalHours(project.id) ? getTotalHours(project.id) : "0" ,
+            eighthItem: getTotalCost(project.id) ? "$ "+ getTotalCost(project.id) : "0",
           }
           fillElementsOfTable(projectsTableBody, contentsToAppend);
         });
