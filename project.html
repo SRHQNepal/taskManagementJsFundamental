@@ -261,7 +261,7 @@
             fourthItem: task.status ? task.status : "",
             fifthItem: task.assignee ? getUserFullNameFromId(task.assignee) : "",
             sixthItem: task.totalHoursWorked ? task.totalHoursWorked : "",
-            seventhItem: task.hourlyRate ? (task.totalHoursWorked ? task.totalHoursWorked : 0) *  task.hourlyRate: ""
+            seventhItem: task.hourlyRate ? "$ "+  (task.totalHoursWorked ? task.totalHoursWorked : 0) *  task.hourlyRate: ""
           }
           fillElementsOfTable(taskTableBody, contentsToAppend);
         });
