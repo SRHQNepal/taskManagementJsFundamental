@@ -108,6 +108,11 @@
     </div>
 
     <script>
+      // log out when clicked on logOut div
+      document.getElementById("logoutDiv").addEventListener("click", function (event) {
+        window.location.href = "index.html";
+      });
+
       var project = getProjectDetails();
     // getting curent user  
     var currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -185,6 +190,8 @@
         var taskDescription = document.createElement("th");
         var taskOverallStatus = document.createElement("th");
         var taskAssignee = document.createElement("th");
+        var taskTotalHours = document.createElement("th");
+        var taskTotalCost = document.createElement("th");
         // create a dropdown for assignee
         // var assigneeDropdown = document.createElement("select");
         // assigneeDropdown.innerHTML = "<option value=''>Please Select</option>";
@@ -198,42 +205,17 @@
         taskOverallStatus.innerHTML = whatToAppend.fourthItem;
         // print the type of tbody or thead
         console.log(itemsWhereToAppend.tagName);
-        if (itemsWhereToAppend.tagName == "THEAD") {
-            taskAssignee.innerHTML = whatToAppend.fifthItem;
-        } else {
-            // taskAssignee.appendChild(assigneeDropdown);
-        //      assigneeDropdown.setAttribute("id", "assigneeDropdown");
-        // assigneeDropdown.setAttribute("class", "form-control");
-        // assigneeDropdown.setAttribute("name", "assigneeDropdown");
-        // assigneeDropdown.setAttribute("onchange", "changeAssignee(this)");
-        // assigneeDropdown.setAttribute("value", whatToAppend.fifthItem);
-        // create options for the dropdown
-       
- 
-
-        // for (var i = 0; i < users.length; i++) {
-        //     var option = document.createElement("option");
-           
-        //     // setting the deafult value of the dropdown to please select if the task doesnt have an assignee
-        //     option.setAttribute("value", users[i].id);
-        //     option.innerHTML = users[i].name;
-        //     assigneeDropdown.appendChild(option);
-
-        //     // if the whatToAppend.fifthItem is not null then set the value of the dropdown to the assignee of the task
-   
-        // }
-
-        // setting default value of the dropdown to please select
-          taskAssignee.innerHTML = whatToAppend.fifthItem;
-        }
-       
-           
+        taskAssignee.innerHTML = whatToAppend.fifthItem;
+        taskTotalHours.innerHTML = whatToAppend.sixthItem;
+        taskTotalCost.innerHTML = whatToAppend.seventhItem;
 
         taskRow.appendChild(taskId);
         taskRow.appendChild(taskName);
         taskRow.appendChild(taskDescription);
         taskRow.appendChild(taskOverallStatus);
         taskRow.appendChild(taskAssignee);
+        taskRow.appendChild(taskTotalHours);
+        taskRow.appendChild(taskTotalCost);
 
         itemsWhereToAppend.appendChild(taskRow);
       }
@@ -254,6 +236,8 @@
           thirdItem: "DESCRIPTION",
           fourthItem:  "STATUS",
           fifthItem: "ASSIGNEE",
+          sixthItem: "TOTAL HOURS",
+          seventhItem: "TOTAL COST"
         }
         fillElementsOfTable(taskTableHead, contentsToAppend);
         console.log(tasks);
@@ -264,13 +248,21 @@
             secondItem: task.name,
             thirdItem: task.description,
             fourthItem: task.status ? task.status : "",
-            fifthItem: task.assignee ? task.assignee : "",
+            fifthItem: task.assignee ? getUserFullNameFromId(task.assignee) : "",
+            sixthItem: task.totalHoursWorked ? task.totalHoursWorked : "",
+            seventhItem: task.hourlyRate ? (task.totalHoursWorked ? task.totalHoursWorked : 0) *  task.hourlyRate: ""
           }
           fillElementsOfTable(taskTableBody, contentsToAppend);
         });
         tasksTable.appendChild(taskTableHead);
         tasksTable.appendChild(taskTableBody);
         loadEventHandlers();
+      }
+
+      function getUserFullNameFromId(userId) {
+        var users = JSON.parse(localStorage.getItem("users"));
+        var user = users.find(u => u.id == userId);
+        return user.name;
       }
 
       function loadEventHandlers() {
@@ -303,6 +295,8 @@
           description: "",
           status: "incomplete",
           assignee: "",
+          totalHoursWorked: 0,
+          hourlyRate: 0,
         }
         tasks.push(task);
        
