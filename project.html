@@ -108,6 +108,11 @@
     </div>
 
     <script>
+      // log out when clicked on logOut div
+      document.getElementById("logoutDiv").addEventListener("click", function (event) {
+        window.location.href = "index.html";
+      });
+
       var project = getProjectDetails();
     // getting curent user  
     var currentUser = JSON.parse(localStorage.getItem("currentUser"));

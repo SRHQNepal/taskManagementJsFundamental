@@ -5,12 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <title>Task Page: Online</title>
   </head>
   <body>
     <nav
       class="relative w-full flex flex-row items-center justify-between py-4 bg-gray-100 text-gray-500 hover:text-gray-700 focus:text-gray-700 shadow-lg navbar navbar-expand-lg navbar-light"
     >
+      <div>
+        <lottie-player
+          class="ml-4 h-5 w-7"
+          src="https://assets7.lottiefiles.com/private_files/lf30_eiaughgn.json"
+          background="transparent"
+          speed="0.5"
+          autoplay
+          loop
+        ></lottie-player>
+      </div>
       <div
         class="container-fluid w-full flex flex-wrap items-center justify-center px-6"
       >
@@ -20,14 +31,32 @@
       </div>
       <div class="flex flex-row">
         <!-- Creating profile avatar and logout button -->
-        <div class="flex flex-row" id="user" style="margin-right: 8px;display: flex;align-items: center;">
-        <img class="w-5 h-5 mr-2"src="user.png">
-        <p>admin</p>
+        <div
+          class="flex flex-row"
+          id="user"
+          style="margin-right: 8px; display: flex; align-items: center"
+        >
+          <lottie-player
+            class="h-5 w-5 mr-2"
+            src="https://assets2.lottiefiles.com/packages/lf20_ia8jpabk.json"
+            background="transparent"
+            speed="0.5"
+            autoplay
+            loop
+            hover
+          ></lottie-player>
+          <p id="currentUserName">admin</p>
         </div>
-        
-      </div>
-      <a href="#" class="text-red-500 mx-2">Logout</a>
-      </div>
+
+        <div id="logoutDiv" class="mr-6">
+          <lottie-player
+            class="h-12 w-12"
+            src="https://assets8.lottiefiles.com/packages/lf20_s0cpca0v.json"
+            background="transparent"
+            speed="0.5"
+            hover
+          ></lottie-player>
+        </div>
       </div>
     </nav>
 
@@ -39,9 +68,16 @@
           >Dashboard</a
         >
         <p class="block px-1 py-2 text-sm font-semibold">></p>
-        <a id="projectNav" href="#" class="block px-4 py-2 text-sm font-semibold">Projects</a>
+        <a
+          id="projectNav"
+          href="#"
+          class="block px-4 py-2 text-sm font-semibold"
+          >Projects</a
+        >
         <p class="block px-1 py-2 text-sm font-semibold">></p>
-        <a id="taskNav" href="#" class="block px-4 py-2 text-sm font-semibold">Tasks</a>
+        <a id="taskNav" href="#" class="block px-4 py-2 text-sm font-semibold"
+          >Tasks</a
+        >
       </div>
     </div>
     <form class="w-full lg:w-2/3 mx-auto mb-10 mt-10">
@@ -109,8 +145,17 @@
         </div>
 
         <div class="w-full lg:w-1/2 md:1/3 px-3 mb-6 md:mb-0">
-          <label for="status" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Status</label>
-          <select id="status" name="status" autocomplete="status-name" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+          <label
+            for="status"
+            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            >Status</label
+          >
+          <select
+            id="status"
+            name="status"
+            autocomplete="status-name"
+            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          >
             <option value="incomplete">Incomplete</option>
             <option value="in-progress">In progress</option>
             <option value="Completed">Completed</option>
@@ -118,21 +163,38 @@
         </div>
 
         <div class="w-full lg:w-1/2 md:1/3 px-3 mb-6 md:mb-0 pt-5">
-          <label for="status" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Assignee</label>
-          <select id="assignee" name="status" autocomplete="status-name" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-            
-          </select>
+          <label
+            for="status"
+            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            >Assignee</label
+          >
+          <select
+            id="assignee"
+            name="status"
+            autocomplete="status-name"
+            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          ></select>
         </div>
         <div class="w-full lg:full md:full mt-6 px-3 mb-6 md:mb-0">
-          <button  id="save" class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Save</button>
+          <button
+            id="save"
+            class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            Save
+          </button>
         </div>
       </div>
     </form>
   </body>
   <script>
+    // log out when clicked on logOut div
+    document
+      .getElementById("logoutDiv")
+      .addEventListener("click", function (event) {
+        window.location.href = "index.html";
+      });
 
-
-   // parsing task id and project id from url
+    // parsing task id and project id from url
     function getUrlVars() {
       var vars = {};
       var parts = window.location.href.replace(
@@ -154,34 +216,31 @@
     console.log(project_id);
     console.log(task_id);
 
-
     var project = getProjectDetails();
 
     var tasks = project.tasks;
 
-    var task = tasks.find(t => t.id == task_id);
+    var task = tasks.find((t) => t.id == task_id);
 
-      // TODO: We need to redirect when we click on project navbar item to project.html with project id
+    // TODO: We need to redirect when we click on project navbar item to project.html with project id
     document.getElementById("projectNav").innerHTML = project.name;
     // Redirecting to project.html with project id
-    document.getElementById("projectNav").href = "project.html?projectId=" + project.id;
+    document.getElementById("projectNav").href =
+      "project.html?projectId=" + project.id;
 
     document.getElementById("taskNav").innerHTML = task.name;
     // Redirecting to task.html with project id and task id
-    document.getElementById("taskNav").href = "task.html?projectId=" + project.id + task.id;
-
-  
-
+    document.getElementById("taskNav").href =
+      "task.html?projectId=" + project.id + task.id;
 
     function getUsers() {
       var users = JSON.parse(localStorage.getItem("users"));
       return users;
     }
 
-
     function getProjectDetails() {
       var projects = JSON.parse(localStorage.getItem("projects"));
-      var project = projects.find(p => p.id == project_id);
+      var project = projects.find((p) => p.id == project_id);
       console.log(project);
       return project;
     }
@@ -190,7 +249,7 @@
     document.getElementById("task-description").value = task.description;
     document.getElementById("start").value = task.startDate;
     document.getElementById("enddate").value = task.endDate;
-      // getting task status and assignee and setting it to the dropdown
+    // getting task status and assignee and setting it to the dropdown
     document.getElementById("status").value = task.status;
     document.getElementById("assignee").value = task.assignee;
 
@@ -203,36 +262,35 @@
       assignee.appendChild(option);
     });
 
-
     var save = document.getElementById("save");
-    save.addEventListener("click",function(){
+    save.addEventListener("click", function () {
       // prevent default form submission
       event.preventDefault();
       var taskName = document.getElementById("task-name");
       var description = document.getElementById("task-description");
       var startDate = document.getElementById("start");
       var endd = document.getElementById("enddate");
-      task.status =  document.getElementById("status").value;
+      task.status = document.getElementById("status").value;
       task.assignee = Number(document.getElementById("assignee").value);
-      
+
       task.name = taskName.value;
-      
+
       task.description = description.value;
-     
+
       task.startDate = startDate.value;
-     
+
       task.endDate = endd.value;
 
       console.log(task);
-      
+
       // updating the task in the project
-      var taskIndex = tasks.findIndex(t => t.id == task_id);
+      var taskIndex = tasks.findIndex((t) => t.id == task_id);
       tasks[taskIndex] = task;
 
       // updating the project in the projects
       // getting the projects from the local storage
       var projects = JSON.parse(localStorage.getItem("projects"));
-      var projectIndex = projects.findIndex(p => p.id == project_id);
+      var projectIndex = projects.findIndex((p) => p.id == project_id);
       projects[projectIndex] = project;
 
       // updating the projects in the local storage
@@ -243,9 +301,6 @@
 
       // reload the page
       location.reload();
-
-
-    })
-  
+    });
   </script>
 </html>
