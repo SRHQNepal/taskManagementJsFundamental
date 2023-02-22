@@ -308,17 +308,6 @@
       return project;
     }
 
-    var startDate = new Date().toISOString().slice(0, 10);
-    var endDate = new Date().toISOString().slice(0, 10);
-    if (task.startDate != "" && task.startDate != undefined) {
-      startDate = task.startDate;
-    }
-    if (task.endDate != "" && task.endDate != undefined) {
-      endDate = task.endDate;
-    }
-    console.log("---------------------------");
-    console.log(startDate);
-
     var users = getUsers();
     var assignee = document.getElementById("assignee");
     users.forEach((user) => {
@@ -330,8 +319,14 @@
 
     document.getElementById("task-name").value = task.name;
     document.getElementById("task-description").value = task.description;
-    document.getElementById("start").value = startDate;
-    document.getElementById("enddate").value = endDate;
+    document.getElementById("start").value = task.startDate
+      .split("/")
+      .reverse()
+      .join("-");
+    document.getElementById("enddate").value = task.endDate
+      .split("/")
+      .reverse()
+      .join("-");
     // getting task status and assignee and setting it to the dropdown
     document.getElementById("status").value = task.status;
     document.getElementById("assignee").value = task.assignee;

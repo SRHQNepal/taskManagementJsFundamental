@@ -300,7 +300,7 @@
           var inProgressTasks = project.tasks.filter((task) => task.status == "In Progress");
           if (completedTasks.length == project.tasks.length) {
             overallStatus = "Completed";
-          }else if (inProgressTasks.length > 0) {
+          }else if (inProgressTasks.length > 0 || completedTasks.length > 0)  {
             overallStatus = "In Progress";
           }else{
             overallStatus = "To Do";

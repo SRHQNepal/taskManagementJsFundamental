@@ -168,27 +168,11 @@
     // fill project details
     // filling the project details in input tag
 
-    var startDate = new Date().toISOString().slice(0, 10);
-    var endDate = new Date().toISOString().slice(0, 10);
-
-    if((project.startDate !='') && (project.startDate !=undefined)){
-      const dateParts = project.startDate.split('/'); // split the string into parts
-    const dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]); // create Date object
-    startDate = dateObject.toISOString();
-    console.log(startDate);
-    }
-    if((project.endDate !='') && (project.endDate != undefined)){
-            const dateParts = project.endDate.split('/'); // split the string into parts
-    const dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]); // create Date object
-    endDate = dateObject.toISOString();
-    
-    } 
-    // console.log(project.startDate);
 
     document.getElementById("project_name").value = project.name;
     document.getElementById("project_description").value = project.description;
-    document.getElementById("start_date").value = startDate;
-    document.getElementById("end_date").value = endDate;
+    document.getElementById("start_date").value = project.startDate.split('/').reverse().join('-');
+    document.getElementById("end_date").value = project.endDate.split('/').reverse().join('-');
    
     // TODO: We need to redirect when we click on project navbar item to project.html with project id
     document.getElementById("projectNav").innerHTML = project.name;
@@ -339,7 +323,7 @@
           hourlyRate: 0,
           // setting the start date to today in dd/mm/yyyy format
           startDate: new Date().toLocaleDateString(),
-          endDate: ""
+          endDate: project.endDate
         }
         tasks.push(task);
        
