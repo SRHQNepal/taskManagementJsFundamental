@@ -166,13 +166,14 @@
     // Redirecting to project.html with project id
     document.getElementById("projectNav").href = "project.html?projectId=" + project.id;
 
+      
+
+
     document.getElementById("taskNav").innerHTML = task.name;
     // Redirecting to task.html with project id and task id
     document.getElementById("taskNav").href = "task.html?projectId=" + project.id + task.id;
 
-  
-
-
+     
     function getUsers() {
       var users = JSON.parse(localStorage.getItem("users"));
       return users;
@@ -186,10 +187,23 @@
       return project;
     }
 
+
+    var startDate = new Date().toISOString().slice(0, 10);
+    var endDate = new Date().toISOString().slice(0, 10);
+    if((task.startDate !='') && (task.startDate !=undefined)){
+      startDate = task.startDate;
+    }
+    if((task.endDate !='') && (task.endDate != undefined)){
+      endDate = task.endDate;
+    
+    } 
+    console.log('---------------------------');
+    console.log(startDate);
+
     document.getElementById("task-name").value = task.name;
     document.getElementById("task-description").value = task.description;
-    document.getElementById("start").value = task.startDate;
-    document.getElementById("enddate").value = task.endDate;
+    document.getElementById("start").value = startDate;
+    document.getElementById("enddate").value = endDate;
       // getting task status and assignee and setting it to the dropdown
     document.getElementById("status").value = task.status;
     document.getElementById("assignee").value = task.assignee;

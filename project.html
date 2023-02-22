@@ -151,13 +151,24 @@
     document.addEventListener("DOMContentLoaded", function() {
     tasks = project.tasks;
 
+      // getting current date 
     // TODO:
     // fill project details
     // filling the project details in input tag
+
+    var startDate = new Date().toISOString().slice(0, 10);
+    var endDate = new Date().toISOString().slice(0, 10);
+    if((project.startDate !='') && (project.startDate !=undefined)){
+      startDate = project.startDate;
+    }
+    if((project.endDate !='') && (project.endDate != undefined)){
+      endDate = project.endDate;
+    
+    } 
     document.getElementById("project_name").value = project.name;
     document.getElementById("project_description").value = project.description;
-    document.getElementById("start_date").value = project.startDate;
-    document.getElementById("end_date").value = project.endDate;
+    document.getElementById("start_date").value = startDate;
+    document.getElementById("end_date").value = endDate;
    
     // TODO: We need to redirect when we click on project navbar item to project.html with project id
     document.getElementById("projectNav").innerHTML = project.name;
