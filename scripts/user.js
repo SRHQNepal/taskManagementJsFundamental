@@ -14,6 +14,13 @@ function loadInitialData() {
       password: "admin",
       type: "admin",
     },
+    {
+      id: 2,
+      name: "Namrata Barot",
+      email: "namrata.barot3@gmail.com",
+      password: "123456",
+      type: "user",
+    },
   ];
   // saving to local storage
   localStorage.setItem("users", JSON.stringify(users));
