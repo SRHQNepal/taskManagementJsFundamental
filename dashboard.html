@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+        <script src="scripts/user.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <title>Dashboard: Online Task Management System</title>
+  </head>
+  <body>
+    <nav
+      class="relative w-full flex flex-row items-center justify-between py-4 bg-gray-100 text-gray-500 hover:text-gray-700 focus:text-gray-700 shadow-lg navbar navbar-expand-lg navbar-light"
+    >
+    <div>
+      <lottie-player class="ml-4 h-5 w-7" src="https://assets7.lottiefiles.com/private_files/lf30_eiaughgn.json" background="transparent"  speed="0.5" autoplay loop></lottie-player>
+    </div>
+      <div
+        class="container-fluid w-full flex flex-wrap items-center justify-center px-6"
+      >
+        <div class="flex flex-row items-center justify-center mt-3 text-xl">
+          Online Task Management System
+        </div>
+      </div>
+      <div class="flex flex-row">
+        <!-- Creating profile avatar and logout button -->
+        <div class="flex flex-row" id="user" style="margin-right: 8px;display: flex;align-items: center;">
+        <lottie-player class="h-5 w-5 mr-2" src="https://assets2.lottiefiles.com/packages/lf20_ia8jpabk.json" background="transparent"  speed="0.5" autoplay loop hover></lottie-player>
+        <p id="currentUserName">admin</p>
+        </div>
+        
+      <div id="logoutDiv" class="mr-6">
+       <lottie-player class="h-12 w-12" src="https://assets8.lottiefiles.com/packages/lf20_s0cpca0v.json" background="transparent"  speed="0.5" hover></lottie-player>
+      </div>
+      </div>
+    </nav>
+
+    <div>
+     
+      <!-- Creating navbar to create the project -->
+      <div class="flex flex-row items-start justify-start bg-gray-100 text-gray-500 hover:text-gray-700 focus:text-gray-700">
+        <div class="flex flex-row">
+          <a
+          
+            href="dashboard.html"
+            class="block px-4 py-2 text-sm font-semibold "
+            >Dashboard</a
+          >
+        </div>
+      </div>
+          <div class="flex flex-row items-center justify-center mt-1">
+<lottie-player class="h-2/6 w-2/6" src="https://assets1.lottiefiles.com/packages/lf20_aewe22ol.json" background="transparent"  speed="0.5" autoplay></lottie-player>
+    </div>
+      <!-- Creating input to create the project -->
+      <div id="createProjectDiv" class="flex flex-row items-center justify-center mt-2">
+        <div class="flex flex-row p-2  w-1/2">
+            <input
+              id="projectName"
+              type="text"
+              class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding shadow-md rounded transition ease-in-out m-0 focus:text-gray-700 outline-none"
+              placeholder="Project Name"
+            />
+             <div>
+      <lottie-player id="addLottie" class="ml-4 h-10 w-10 mt-2 hidden" src="https://assets10.lottiefiles.com/packages/lf20_dNg5MlvEgg.json" background="transparent"  speed="0.5" autoplay loop></lottie-player>
+    </div>
+            </div>
+
+    </div>
+    <div class="flex flex-row items-center justify-center mt-10 mb-10">
+      <table
+        id="projectsTable"
+        class="table-auto shadow-md w-11/12 p-5"
+      ></table>
+    </div>
+
+    
+    <script>
+        var localStorageProjects = JSON.parse(localStorage.getItem("projects"));
+
+          // try to fetch projects from local storage and if not found then create a new array
+          if (localStorageProjects == null) {
+            localStorageProjects = [];
+          }
+      
+       // find the projects in which tasks is associated with the current user
+        associatedProjects = [];
+        localStorageProjects.forEach((project) => {
+          project.tasks.forEach((task) => {
+            if (task.assignee == getCurrentUser().id) {
+              associatedProjects.push(project);
+            }
+          });
+        });
+
+        console.log(associatedProjects);
+
+      // Making focus on the project name input
+      document.getElementById("projectName").focus();
+
+      // adding on enter event to the project name input
+      document
+        .getElementById("projectName")
+        .addEventListener("keyup", function (event) {
+          if (event.keyCode === 13) {
+            event.preventDefault();
+            console.log("Enter key pressed");
+            document.getElementById("addLottie").classList.remove("hidden");
+            setInterval(function(){
+              document.getElementById("addLottie").classList.add("hidden");
+            }, 5000);
+
+            // Add the project to the projects array with project name as input
+            var projectName = document.getElementById("projectName").value;
+            var project = {
+              id: localStorageProjects.length + 1,
+              name: projectName,
+              description: "Please update the description",
+              tasks: [],
+              // setting the start date to today in dd/mm/yyyy format
+              startDate: new Date().toLocaleDateString(),
+              // setting the end date to 14 day after the start date
+              endDate: new Date(
+                new Date().getTime() + 14 * 24 * 60 * 60 * 1000
+              ).toLocaleDateString(),
+              
+            };
+
+            // Adding the project to the projects array
+            localStorageProjects.push(project);
+
+            // Adding the project to the local storage
+            localStorage.setItem("projects", JSON.stringify(localStorageProjects));
+
+            // Filling the projects table
+            fillProjectsTable();
+
+            // Clearing the input
+            document.getElementById("projectName").value = "";
+          }
+        });
+
+        // adding on hover effect on the project name input
+        document.getElementById("projectName").addEventListener("mouseover", function (event) {
+          // playing the lottie animation
+          document.getElementById("addLottie").classList.remove("hidden");
+        });
+
+        // removing on hover effect on the project name input
+        document.getElementById("projectName").addEventListener("mouseout", function (event) {
+          // playing the lottie animation
+          document.getElementById("addLottie").classList.add("hidden");
+        });
+
+
+      fillProjectsTable();
+
+      // log out when clicked on logOut div
+      document.getElementById("logoutDiv").addEventListener("click", function (event) {
+        window.location.href = "index.html";
+      });
+
+      // function to fectch current user form local storage
+
+      if (getCurrentUser() == null) {
+        window.location.href = "index.html";
+      }else{
+        document.getElementById("currentUserName").innerHTML = getCurrentUser().name;
+        if (getCurrentUser().type != "admin") {
+          document.getElementById("createProjectDiv").classList.add("hidden");
+
+          localStorageProjects = associatedProjects;
+        
+        }
+      }
+
+     
+
+      function fillElementsOfTable(itemsWhereToAppend, whatToAppend){
+
+        // Creating headers for the table
+        var projectRow = document.createElement("tr");
+        var projectId = document.createElement("th");
+        var projectName = document.createElement("th");
+        var projectTaskCount = document.createElement("th");
+        var projectStartDate = document.createElement("th");
+        var projectEndDate = document.createElement("th");
+        var projectOverallStatus = document.createElement("th");
+        var projectOverallHours = document.createElement("th");
+        var projectOverallCost = document.createElement("th");
+
+        projectId.innerHTML = whatToAppend.firstItem;
+        projectName.innerHTML = whatToAppend.secondItem;
+        projectStartDate.innerHTML = whatToAppend.thirdItem;
+        projectEndDate.innerHTML = whatToAppend.fourthItem;
+        projectTaskCount.innerHTML = whatToAppend.fifthItem;
+        projectOverallStatus.innerHTML = whatToAppend.sixthItem;
+        projectOverallHours.innerHTML = whatToAppend.seventhItem;
+        projectOverallCost.innerHTML = whatToAppend.eighthItem;
+
+        projectRow.appendChild(projectId);
+        projectRow.appendChild(projectName);
+        projectRow.appendChild(projectTaskCount);
+        projectRow.appendChild(projectStartDate);
+        projectRow.appendChild(projectEndDate);
+        projectRow.appendChild(projectOverallStatus);
+        projectRow.appendChild(projectOverallHours);
+        projectRow.appendChild(projectOverallCost);
+
+        itemsWhereToAppend.appendChild(projectRow);
+      }
+
+      function fillProjectsTable() {
+
+
+        // TODO: Just add the project that is associated with the current user
+        var projectsTable = document.getElementById("projectsTable");
+        var projectTableHead = document.createElement("thead");
+        var projectsTableBody = document.createElement("tbody");
+
+        // Clear the table first
+        projectsTable.innerHTML = "";
+
+
+        contentsToAppend = {
+          firstItem: "ID",
+          secondItem: "NAME",
+          thirdItem: "START DATE",
+          fourthItem: "END DATE",
+          fifthItem: "TOTAL NO OF TASKS",
+          sixthItem: "STATUS",
+          seventhItem: "TOTAL HOURS",
+          eighthItem: "TOTAL COST",
+        }
+        fillElementsOfTable(projectTableHead, contentsToAppend);
+
+        
+        document.getElementById("currentUserName").innerHTML = getCurrentUser().name;
+        if (getCurrentUser().type != "admin") {
+          
+        associatedProjects.forEach((project) => {
+          contentsToAppend = {
+            firstItem: project.id,
+            secondItem: project.name,
+            thirdItem: project.startDate,
+            fourthItem: project.endDate ? project.endDate : "Not Set",
+            fifthItem: project.tasks.length,
+            sixthItem: getOverallProjectStatus(project.id),
+            seventhItem: getTotalHours(project.id) ? getTotalHours(project.id) : "0" ,
+            eighthItem: getTotalCost(project.id) ? "$ "+ getTotalCost(project.id) : "0",
+          }
+          fillElementsOfTable(projectsTableBody, contentsToAppend);
+        });
+        }else{
+          localStorageProjects.forEach((project) => {
+          contentsToAppend = {
+            firstItem: project.id,
+            secondItem: project.name,
+            thirdItem: project.startDate,
+            fourthItem: project.endDate,
+            fifthItem: project.tasks.length,
+            sixthItem: getOverallProjectStatus(project.id),
+            seventhItem: getTotalHours(project.id) ? getTotalHours(project.id) : "0" ,
+            eighthItem: getTotalCost(project.id) ? "$ "+ getTotalCost(project.id) : "0",
+          }
+          fillElementsOfTable(projectsTableBody, contentsToAppend);
+        });
+        }
+        projectsTable.appendChild(projectTableHead);
+        projectsTable.appendChild(projectsTableBody);
+        loadEventHandlers();
+      }
+
+      // function to calculate total hour of a project
+      function getTotalHours(projectId){
+        var project = localStorageProjects.find((project) => project.id == projectId);
+        var totalHours = 0;
+        project.tasks.forEach((task) => {
+          totalHours += task.totalHoursWorked;
+        });
+        return totalHours;
+      }
+
+      // function to calculate total cost of a project
+      function getTotalCost(projectId){
+        var project = localStorageProjects.find((project) => project.id == projectId);
+        var totalCost = 0;
+        project.tasks.forEach((task) => {
+          taskCost = task.totalHoursWorked * task.hourlyRate;
+          totalCost += taskCost;
+        });
+        return totalCost;
+      }
+
+      function getOverallProjectStatus(projectId){
+        var project = localStorageProjects.find((project) => project.id == projectId);
+        var overallStatus = "To Do";
+        if (project.tasks.length > 0) {
+          var completedTasks = project.tasks.filter((task) => task.status == "Completed");
+          var inProgressTasks = project.tasks.filter((task) => task.status == "In Progress");
+          if (completedTasks.length == project.tasks.length) {
+            overallStatus = "Completed";
+          }else if (inProgressTasks.length > 0 || completedTasks.length > 0)  {
+            overallStatus = "In Progress";
+          }else{
+            overallStatus = "To Do";
+          }
+        }
+
+        return overallStatus;
+      }
+
+      function loadEventHandlers() {
+        // Adding event handlers to the table rows
+        var tableRows = document.getElementById("projectsTable").rows;
+        for (var i = 1; i < tableRows.length; i++) {
+          tableRows[i].addEventListener("click", function () {
+            console.log("Row clicked");
+            console.log(this.cells[0].innerHTML);
+            // redirect to the project page
+            window.location.href = "project.html?projectId=" + this.cells[0].innerHTML;
+          });
+        }
+      }
+    </script>
+  </body>
+</html>
